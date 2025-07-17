@@ -1,7 +1,11 @@
 const db = require('../models/db');
 
 const getAllVisitors = (req, res) => {
-  db.execute('SELECT * FROM visitors ORDER BY visit_time DESC', (err, results) => {
+  const createdBy = req.user.id;
+
+  const sql = `SELECT * FROM visitors WHERE created_by = ? ORDER BY visit_time DESC`;
+
+  db.execute(sql, [createdBy], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(results);
   });
