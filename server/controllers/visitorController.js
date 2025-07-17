@@ -1,12 +1,49 @@
 const db = require('../models/db');
 
 const getAllVisitors = (req, res) => {
-  const createdBy = req.user.id;
+  const { id, role } = req.user;
 
-  const sql = `SELECT * FROM visitors WHERE created_by = ? ORDER BY visit_time DESC`;
+  let sql;
+  let params = [];
 
-  db.execute(sql, [createdBy], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+  if (role === 'admin') {
+    sql = `
+      SELECT 
+        visitors.*, 
+        users.name AS added_by 
+      FROM 
+        visitors 
+      JOIN 
+        users 
+      ON 
+        visitors.created_by = users.id 
+      ORDER BY 
+        visit_time DESC
+    `;
+  } else {
+    sql = `
+      SELECT 
+        visitors.*, 
+        users.name AS added_by 
+      FROM 
+        visitors 
+      JOIN 
+        users 
+      ON 
+        visitors.created_by = users.id 
+      WHERE 
+        visitors.created_by = ? 
+      ORDER BY 
+        visit_time DESC
+    `;
+    params.push(id);
+  }
+
+  db.execute(sql, params, (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Failed to fetch visitors' });
+    }
     res.json(results);
   });
 };
