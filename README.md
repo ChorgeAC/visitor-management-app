@@ -14,7 +14,7 @@ A full-stack web application to manage visitor check-ins and check-outs at an or
 - React
 - TypeScript
 - Tailwind CSS
-- React Query (optional, if used)
+- React Query
 - Axios
 - React Router
 
@@ -22,7 +22,6 @@ A full-stack web application to manage visitor check-ins and check-outs at an or
 - Node.js
 - Express.js
 - MySQL
-- Sequelize / Knex (mention if you're using an ORM)
 - RESTful APIs
 
 ## 💡 Features
@@ -30,7 +29,7 @@ A full-stack web application to manage visitor check-ins and check-outs at an or
 - Add, update, and delete visitors
 - Check-in and check-out functionality
 - Search and filter visitors
-- Role-based authentication (if applicable)
+- Role-based authentication
 
 ## 🛠️ Getting Started
 
