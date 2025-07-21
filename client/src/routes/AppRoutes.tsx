@@ -3,6 +3,7 @@ import Login from '../pages/Login';
 import AdminDashboard from '../pages/AdminDashboard';
 import SecurityDashboard from '../pages/SecurityDashboard';
 import { useAuth } from '../context/AuthContext';
+import AddSecurity from '../pages/AddSecurity';
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -13,6 +14,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Navigate to={`/${user.role}`} />} />
       {user.role === 'admin' && <Route path="/admin" element={<AdminDashboard />} />}
+      {user.role === 'admin' && <Route path="/admin/add-security" element={<AddSecurity />} />}
       {user.role === 'security' && <Route path="/security" element={<SecurityDashboard />} />}
       <Route path="*" element={<Navigate to={`/${user.role}`} />} />
     </Routes>

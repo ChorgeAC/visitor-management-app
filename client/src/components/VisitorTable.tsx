@@ -1,6 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchVisitors, checkoutVisitor, deleteVisitor } from "../services/visitorApi";
-import { useAuth } from '../context/AuthContext';
+import {
+  fetchVisitors,
+  checkoutVisitor,
+  deleteVisitor,
+} from "../services/visitorApi";
+import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const VisitorTable = () => {
   const queryClient = useQueryClient();
@@ -14,6 +19,14 @@ const VisitorTable = () => {
   const { mutate: checkout, isPending: isCheckingOut } = useMutation({
     mutationFn: (id: number) => checkoutVisitor(id),
     onSuccess: () => {
+      toast.success("Visitor checkout successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       queryClient.invalidateQueries({ queryKey: ["visitors"] });
     },
   });
@@ -21,6 +34,14 @@ const VisitorTable = () => {
   const { mutate: deleteItem, isPending: isDeleting } = useMutation({
     mutationFn: (id: number) => deleteVisitor(id),
     onSuccess: () => {
+      toast.success("Visitor delete successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       queryClient.invalidateQueries({ queryKey: ["visitors"] });
     },
   });
@@ -70,7 +91,9 @@ const VisitorTable = () => {
                   >
                     {isCheckingOut ? "Checking out..." : "Checkout"}
                   </button>
-                ) : "--"}
+                ) : (
+                  "--"
+                )}
                 {user?.role === "admin" && (
                   <button
                     className="bg-gray-700 hover:bg-black text-white px-3 py-1 rounded"
